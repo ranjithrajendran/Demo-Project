@@ -16,7 +16,7 @@ const createUser = (req,res) => {
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.create(input).then(function (data) {
+    dbService.create(input).then((data) => {
         res.send(data);
     }).catch((error)=>{res.send(error)});
 }
@@ -26,7 +26,7 @@ const updateUser = (req,res) => {
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.update(input).then(function (data) {
+    dbService.update(input).then((data) => {
         res.send(data);
     }).catch((error)=>{res.send(error)});
 }
@@ -36,7 +36,7 @@ const deleteUser = (req,res) => {
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.remove(input).then(function (data) {
+    dbService.remove(input).then((data) => {
         res.send(data);
     }).catch((error)=>{res.send(error)});
 }
@@ -46,7 +46,7 @@ const authenticateUser = (req,res) => {
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.authenticate(input).then(function (data) {
+    dbService.authenticate(input).then((data) => {
         res.send(data);
     }).catch((error)=>{res.send(error)});
 }
@@ -56,7 +56,7 @@ const addFriends = (req,res) => {
     // const input = req.body;
     const input = req.query;
     console.log(input);
-    dbService.addFriends(input).then(function (data) {
+    dbService.addFriends(input).then((data) => {
         res.send(data);
     }).catch((error)=>{res.send(error)});
 }
@@ -66,7 +66,7 @@ const removeFriends = (req,res) => {
     // const input = req.body;
     const input = req.query;
     console.log(input);
-    dbService.removeFriends(input).then(function (data) {
+    dbService.removeFriends(input).then((data) => {
         res.send(data);
     }).catch((error)=>{res.send(error)});
 }

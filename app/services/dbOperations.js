@@ -45,7 +45,7 @@ const create = (input) => {
 function update(input) {
     return new Promise((resolve, reject) => {
         console.log("inside Update service");
-        connection.query('UPDATE testing SET name=? where slno=?', [input.name, input.slno], (err, results) => {
+        connection.query('UPDATE user SET ?=? where loginId=? and password=?', [input.loginId, input.password], (err, results) => {
             if (err) {
                 console.log(err);
                 reject(err);
