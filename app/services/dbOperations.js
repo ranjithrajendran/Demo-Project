@@ -115,7 +115,8 @@ const removeFriends = (input) => {
     return new Promise((resolve, reject) => {
         console.log("inside Remove Friends service");
         console.log(input.loginId1 + ' ' + input.loginId2);
-        connection.query(sqlstatement, (err, results) => {
+        connection.query('update user set friends = json_remove(friends,replace(json_search(friends,"one",?),\'"\',\'\')) where (json_search(friends,"one",?) is not null) AND (loginID= ?)',[input.loginId2,input.loginId2,input.loginId1]);
+        connection.query('update user set friends = json_remove(friends,replace(json_search(friends,"one",?),\'"\',\'\')) where (json_search(friends,"one",?) is not null) AND (loginID= ?)',[input.loginId1,input.loginId1,input.loginId2], (err, results) => {
             if (err) {
                 console.log(err);
                 reject(err);

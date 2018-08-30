@@ -53,8 +53,8 @@ const authenticateUser = (req,res) => {
 
 const addFriends = (req,res) => {
     console.log("inside Add Friends controller");
-    const input = req.body;
-    // const input = req.query;
+    // const input = req.body;
+    const input = req.query;
     console.log(input);
     dbService.addFriends(input).then(function (data) {
         res.send(data);
@@ -63,8 +63,8 @@ const addFriends = (req,res) => {
 
 const removeFriends = (req,res) => {
     console.log("inside Remove Friends controller");
-    const input = req.body;
-    // const input = req.query;
+    // const input = req.body;
+    const input = req.query;
     console.log(input);
     dbService.removeFriends(input).then(function (data) {
         res.send(data);
