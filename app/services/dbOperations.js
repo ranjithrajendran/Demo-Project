@@ -10,12 +10,12 @@ const display = () => {
         connection.query('SELECT * FROM user', (err, results) => {
             if (err) {
                 console.log(err);
-                reject(err);
+                reject(400);
             }
             if (results) {
-                resolve(results);
+                resolve(200);
             } else {
-                reject();
+                reject(500);
             }
         });
     });
@@ -27,16 +27,13 @@ const create = (input) => {
         connection.query('INSERT INTO user   SET ?', input, (err, results) => {
             if (err) {
                 console.log(err);
-                reject(err);
+                reject(400);
             }
             if (results) {
-                var response = {
-                    messege: "inserted successfully"
-                }
                 connection.query('UPDATE user SET friends = "[]" where loginId=?',input.loginId);
-                resolve(response);
+                resolve(200);
             } else {
-                reject();
+                reject(500);
             }
         });
     });
@@ -48,12 +45,12 @@ function update(input) {
         connection.query('UPDATE user SET ?=? where loginId=? and password=?', [input.loginId, input.password], (err, results) => {
             if (err) {
                 console.log(err);
-                reject(err);
+                reject(400);
             }
             if (results) {
-                resolve(results);
+                resolve(200);
             } else {
-                reject();
+                reject(500);
             }
         });
     });
@@ -65,12 +62,12 @@ const remove = (input) => {
         connection.query('DELETE FROM user WHERE loginId=? AND password=?', [input.loginId, input.password], (err, results) => {
             if (err) {
                 console.log(err);
-                reject(err);
+                reject(400);
             }
             if (results) {
-                resolve(results);
+                resolve(200);
             } else {
-                reject();
+                reject(500);
             }
         });
     });
@@ -82,12 +79,12 @@ const authenticate = (input) => {
         connection.query('SELECT * FROM user WHERE loginId=? AND password=?', [input.loginId, input.password], (err, results) => {
             if (err) {
                 console.log(err);
-                reject(err);
+                reject(400);
             }
             if (results) {
                 resolve(results);
             } else {
-                reject();
+                reject(500);
             }
         });
     });
@@ -100,12 +97,12 @@ const addFriends = (input) => {
         connection.query('UPDATE user SET friends = (CASE WHEN loginId=? THEN (JSON_ARRAY_APPEND(friends,"$",?))WHEN loginId=? THEN (JSON_ARRAY_APPEND(friends,"$",?))END) WHERE loginId IN(?,?)', [input.loginId2, input.loginId1,input.loginId1, input.loginId2,input.loginId2, input.loginId1], (err, results) => {
             if (err) {
                 console.log(err);
-                reject(err);
+                reject(400);
             }
             if (results) {
-                resolve(results);
+                resolve(200);
             } else {
-                reject();
+                reject(500);
             }
         });
     });
@@ -119,17 +116,33 @@ const removeFriends = (input) => {
         connection.query('update user set friends = json_remove(friends,replace(json_search(friends,"one",?),\'"\',\'\')) where (json_search(friends,"one",?) is not null) AND (loginID= ?)',[input.loginId1,input.loginId1,input.loginId2], (err, results) => {
             if (err) {
                 console.log(err);
-                reject(err);
+                reject(400);
             }
             if (results) {
-                resolve(results);
+                resolve(200);
             } else {
-                reject();
+                reject(500);
             }
         });
     });
 }
 
+const friendsList = (input) => {
+    return new Promise((resolve, reject) => {
+        console.log("inside Friends List Display service");
+        connection.query('SELECT friends FROM user WHERE loginId=? AND password=?', [input.loginId, input.password], (err, results) => {
+            if (err) {
+                console.log(err);
+                reject(400);
+            }
+            if (results) {
+                resolve(results);
+            } else {
+                reject(500);
+            }
+        });
+    });
+}
 
 module.exports = {
     display,
@@ -138,5 +151,6 @@ module.exports = {
     remove,
     authenticate,
     addFriends,
-    removeFriends
+    removeFriends,
+    friendsList
 }

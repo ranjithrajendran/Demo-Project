@@ -22,4 +22,5 @@ module.exports = (app) => {
     app.post('/login', dbOperation.authenticateUser);
     app.put('/users/addFriends', dbOperation.addFriends);
     app.put('/users/removeFriends', dbOperation.removeFriends);
+    app.get('/users/friendsList', dbOperation.friendsList);
 };

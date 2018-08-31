@@ -17,8 +17,15 @@ const createUser = (req,res) => {
     // const input = req.query;
     console.log(input);
     dbService.create(input).then((data) => {
-        res.send(data);
-    }).catch((error)=>{res.send(error)});
+        res.status(200).send("New User Created Successfully");   
+    }).catch((error)=>{
+        if(error==400){
+            res.status(400).send("Username Already Taken");
+        }
+        else{
+            res.sendStatus(500);
+        }
+    });
 }
 
 const updateUser = (req,res) => {
@@ -27,8 +34,16 @@ const updateUser = (req,res) => {
     // const input = req.query;
     console.log(input);
     dbService.update(input).then((data) => {
-        res.send(data);
-    }).catch((error)=>{res.send(error)});
+        res.status(200).send("User Details Updated Successfully");   
+    }).catch((error)=>{
+        if(error==400){
+            res.status(400).send("invalid Username or password"); 
+            console.log("invalid username or password");
+        }
+        else{
+            res.sendStatus(500);
+        }
+    });
 }
 
 const deleteUser = (req,res) => {
@@ -37,8 +52,16 @@ const deleteUser = (req,res) => {
     // const input = req.query;
     console.log(input);
     dbService.remove(input).then((data) => {
-        res.send(data);
-    }).catch((error)=>{res.send(error)});
+        res.status(200).send("User Deleted Successfully");   
+    }).catch((error)=>{
+        if(error==400){
+            res.status(400).send("invalid Username or password");
+            console.log("invalid username or password");
+        }
+        else{
+            res.sendStatus(500);
+        }
+    });
 }
 
 const authenticateUser = (req,res) => {
@@ -47,8 +70,20 @@ const authenticateUser = (req,res) => {
     // const input = req.query;
     console.log(input);
     dbService.authenticate(input).then((data) => {
-        res.send(data);
-    }).catch((error)=>{res.send(error)});
+        if(data[0] == null){
+            res.status(400).send("invalid Username or password");
+            console.log("invalid username or password []");
+        }
+        res.status(200).send("User Log-In Successful");   
+    }).catch((error)=>{
+        if(error==400){
+            res.status(400).send("invalid Username or password"); 
+            console.log("invalid username or password");
+        }
+        else{
+            res.sendStatus(500);
+        }
+    });
 }
 
 const addFriends = (req,res) => {
@@ -57,8 +92,16 @@ const addFriends = (req,res) => {
     const input = req.query;
     console.log(input);
     dbService.addFriends(input).then((data) => {
-        res.send(data);
-    }).catch((error)=>{res.send(error)});
+        res.status(200).send("Friend Added Successfully");   
+    }).catch((error)=>{
+        if(error==400){
+            res.status(400).send("Unable To Add Friend");
+            console.log("Unable To Add Friend");
+        }
+        else{
+            res.sendStatus(500);
+        }
+    });
 }
 
 const removeFriends = (req,res) => {
@@ -67,8 +110,34 @@ const removeFriends = (req,res) => {
     const input = req.query;
     console.log(input);
     dbService.removeFriends(input).then((data) => {
-        res.send(data);
-    }).catch((error)=>{res.send(error)});
+        res.status(200).send("Friend Removed Successfully");   
+    }).catch((error)=>{
+        if(error==400){
+            res.status(400).send("Unable To Remove Friend");
+            console.log("Unable To Remove Friend");
+        }
+        else{
+            res.sendStatus(500);
+        }
+    });
+}
+
+const friendsList = (req,res) => {
+    console.log("inside Show Friends controller");
+    // const input = req.body;
+    const input = req.query;
+    console.log(input);
+    dbService.friendsList(input).then((data) => {
+        res.send(data[0].friends);   
+    }).catch((error)=>{
+        if(error==400){
+            res.status(400).send("invalid Username or password");
+            console.log("invalid Username or password");
+        }
+        else{
+            res.sendStatus(500);
+        }
+    });
 }
 
 module.exports = {
@@ -78,5 +147,6 @@ module.exports = {
     deleteUser,
     authenticateUser,
     addFriends,
-    removeFriends
+    removeFriends,
+    friendsList
 }
