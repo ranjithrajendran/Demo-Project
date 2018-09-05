@@ -1,6 +1,6 @@
 "use strict";
 
-const dbService = require('../services/dbOperations');
+const dbService = require('../services/userServices');
 
 console.log("inside controller");
 

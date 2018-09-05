@@ -1,6 +1,6 @@
 "use strict";
 
-const dbService = require('../services/dbOperations');
+const dbService = require('../services/loginServices');
 
 console.log("inside controller");
 
@@ -10,11 +10,12 @@ const authenticateUser = (req, res) => {
     // const input = req.query;
     console.log(input);
     dbService.authenticate(input).then((data) => {
-        if (data[0] == null) {
+        console.log(data);
+        if (data.results[0] == null) {
             res.status(400).send("invalid Username or password");
             console.log("invalid username or password []");
         }
-        res.status(200).send("User Log-In Successful");
+        res.send(data);
         console.log("User Log-In Successful");
     }).catch((error) => {
         if (error == 400) {

@@ -8,7 +8,7 @@ console.log("inside Database services");
 const display = () => {
     return new Promise((resolve, reject) => {
         console.log("inside Display service");
-        connection.query('SELECT * FROM user', (err, results) => {
+        connection.query('SELECT userId,loginId,firstName,lastName,isLoggedIn FROM user', (err, results) => {
             if (err) {
                 console.log(err);
                 reject(400);
@@ -78,23 +78,6 @@ const remove = (input) => {
             }
             if (results) {
                 resolve(200);
-            } else {
-                reject(500);
-            }
-        });
-    });
-}
-
-const authenticate = (input) => {
-    return new Promise((resolve, reject) => {
-        console.log("inside Authentication service");
-        connection.query('SELECT * FROM user WHERE loginId=? AND password=?', [input.loginId, input.password], (err, results) => {
-            if (err) {
-                console.log(err);
-                reject(400);
-            }
-            if (results) {
-                resolve(results);
             } else {
                 reject(500);
             }
@@ -180,7 +163,6 @@ module.exports = {
     create,
     update,
     remove,
-    authenticate,
     addFriends,
     removeFriends,
     friendsList,

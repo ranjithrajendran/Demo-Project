@@ -16,7 +16,7 @@ db.connect( (err) =>{
         console.log('db connection success');
     }
 });
-const server = app.listen(8000, () => {
+const server = app.listen(5000, () => {
     console.log("app running on port.", server.address().port);
 });
 app.use( (req, res, next) => {
