@@ -7,12 +7,12 @@ const fs = require('fs');
 const authenticate = (input) => {
     return new Promise((resolve, reject) => {
         console.log("inside Authentication service");
-        connection.query('SELECT * FROM user WHERE loginId=? AND password=?', [input.loginId, input.password], (err, results) => {
+        connection.query('SELECT userId,loginId,firstName,lastName,dob,gender FROM user WHERE loginId=? AND password=?', [input.loginId, input.password], (err, results) => {
             if (err) {
                 console.log(err);
                 reject(400);
             }
-            if (results) {
+            else if (results) {
                 // PAYLOAD
                 var payload = {
                     loginId:input.loginId,
@@ -31,11 +31,12 @@ const authenticate = (input) => {
                     issuer: i,
                     subject: s,
                     audience: a,
-                    expiresIn: 1000,
+                    expiresIn: 10000,
                     algorithm: "RS256"
                 };
                 var token = jwt.sign(payload, privateKEY, signOptions);
                 console.log("Token - " + token)
+                console.log(results);
                 var result ={
                     results: results,
                     token: token,

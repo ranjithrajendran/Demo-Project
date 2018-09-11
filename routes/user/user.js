@@ -22,7 +22,7 @@ Router.use('/', (req,res,next) => {
         issuer: i,
         subject: s,
         audience: a,
-        expiresIn: 100,
+        expiresIn: 10000,
         algorithm: "RS256"
     };
     
@@ -41,12 +41,18 @@ Router.use('/', (req,res,next) => {
             return;
         }
     });
-})
+});
+Router.post('/token', (req,res) => {
+    var data ={
+        message:"token verified"
+    }
+    res.send(data)
+});
 Router.post('/info', userController.userInfo);
 Router.get('/list', userController.getDetails);
 Router.put('/update', userController.updateUser);
 Router.delete('/delete', userController.deleteUser);
 Router.use('/friends',friendsRouter);
-Router.post('/post',postsRouter);
+Router.use('/post',postsRouter);
 
 module.exports = Router;

@@ -8,7 +8,7 @@ body: {
     password: Joi.string().min(8).max(16).required(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    dob: Joi.date().required(),
+    dob: Joi.required(),
     gender: Joi.string().max(6).required()
 }
 };

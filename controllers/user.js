@@ -151,8 +151,8 @@ const friendsList = (req, res) => {
 
 const addPost = (req, res) => {
     console.log("inside Add Post controller");
-    // const input = req.body;
-    const input = req.query;
+    const input = req;
+    // const input = req.query;
     console.log(input);
     dbService.addPost.addPost(input).then((data) => {
         res.status(200).send("Post Added Successfully");
@@ -169,8 +169,8 @@ const addPost = (req, res) => {
 
 const removePost = (req, res) => {
     console.log("inside Add Post controller");
-    // const input = req.body;
-    const input = req.query;
+    const input = req.body;
+    // const input = req.query;
     console.log(input);
     dbService.removePost.removePost(input).then((data) => {
         res.status(200).send("Post Added Successfully");
@@ -187,8 +187,8 @@ const removePost = (req, res) => {
 
 const listPost = (req, res) => {
     console.log("inside Add Post controller");
-    // const input = req.body;
-    const input = req.query;
+    const input = req.body;
+    // const input = req.query;
     console.log(input);
     dbService.listPost.listPost(input).then((data) => {
         res.status(200).send("Post Added Successfully");

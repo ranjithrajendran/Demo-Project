@@ -5,7 +5,8 @@ const connection = require('../../dbConnect');
 const addPost = (input) => {
     return new Promise((resolve, reject) => {
         console.log("inside adding posts service");
-        connection.query('INSERT INTO posts SET ?', input, (err, results) => {
+        console.log(input.media);
+        connection.query('INSERT INTO posts (userId,content) values ?,?', [input.userId,input.content], (err, results) => {
             if (err) {
                 console.log(err);
                 reject(400);

@@ -7,7 +7,7 @@ const fs = require('fs');
 const create = (input) => {
     return new Promise((resolve, reject) => {
         console.log("inside insertion service");
-        connection.query('INSERT INTO user   SET ?', input, (err, results) => {
+        connection.query('INSERT INTO user SET ?', input, (err, results) => {
             if (err) {
                 console.log(err);
                 reject(400);
@@ -28,16 +28,17 @@ const create = (input) => {
                     issuer: i,
                     subject: s,
                     audience: a,
-                    expiresIn: 1000,
+                    expiresIn: 10000,
                     algorithm: "RS256"
                 };
                 var token = jwt.sign(payload, privateKEY, signOptions);
                 connection.query('UPDATE user SET token=? where loginId=?', [token.sign, input.loginId]);
-                connection.query('UPDATE user SET friends = "[]" where loginId=?', input.loginId);
+                connection.query('UPDATE user SET friends = "[]" where loginId=?', input.loginId);  
                 var result = {
-                    "token": token,
-                    "status": 200,
-                    "message": "New User Created Successfully"
+                    
+                    token: token,
+                    status: 200,
+                    message: "New User Created Successfully"
                 }
                 resolve(result);
             } else {
