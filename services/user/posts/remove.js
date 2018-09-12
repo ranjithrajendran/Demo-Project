@@ -2,7 +2,7 @@
 
 const connection = require('../../dbConnect');
 
-const removePost = (input) => {
+module.exports = (input) => {
     return new Promise((resolve, reject) => {
         console.log("inside adding posts service");
         connection.query('DELETE FROM posts WHERE postId=?', input.postId, (err, results) => {
@@ -17,7 +17,4 @@ const removePost = (input) => {
             }
         });
     });
-}
-module.exports ={
-    removePost
 }

@@ -2,7 +2,7 @@
 
 const connection = require('../../dbConnect');
 
-const removeFriends = (input) => {
+module.exports = (input) => {
     return new Promise((resolve, reject) => {
         console.log("inside Removing Friends service");
         console.log(input.loginId1 + ' ' + input.loginId2);
@@ -19,8 +19,4 @@ const removeFriends = (input) => {
             }
         });
     });
-}
-
-module.exports ={
-    removeFriends
 }

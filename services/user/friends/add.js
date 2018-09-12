@@ -2,7 +2,7 @@
 
 const connection = require('../../dbConnect');
 
-const addFriends = (input) => {
+module.exports = (input) => {
     return new Promise((resolve, reject) => {
         console.log("inside Adding Friends service");
         console.log(input.loginId1 + ' ' + input.loginId2);
@@ -18,7 +18,4 @@ const addFriends = (input) => {
             }
         });
     });
-}
-module.exports ={
-    addFriends
 }

@@ -2,7 +2,7 @@
 
 const connection = require('../dbConnect');
 
-const update = (input) => {
+module.exports = (input) => {
     return new Promise((resolve, reject) => {
         console.log("inside Updation service");
         connection.query('UPDATE user SET ?=? where loginId=? and password=?', [input.loginId, input.password], (err, results) => {
@@ -17,8 +17,4 @@ const update = (input) => {
             }
         });
     });
-}
-
-module.exports ={
-    update
 }

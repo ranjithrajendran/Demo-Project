@@ -5,17 +5,17 @@ const dbService = {
     create: require('../services/user/create'),
     update: require('../services/user/update'),
     remove: require('../services/user/delete'),
+    search: require('../services/user/search'),
     addFriends: require('../services/user/friends/add'),
     removeFriends: require('../services/user/friends/remove'),
     friendsList: require('../services/user/friends/list'),
-    addPost: require('../services/user/posts/add'),
     removePost: require('../services/user/posts/remove'),
     listPost: require('../services/user/posts/list')
 }
 
 const getDetails = (req, res) => {
     console.log("inside get details controller");
-    dbService.display.display().then((data) => {
+    dbService.display().then((data) => {
         res.send(data);
         // console.log(data);
     }).catch((err) => {
@@ -28,9 +28,9 @@ const userInfo = (req, res) => {
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.userInfo.userInfo(input).then((data) => {
+    dbService.userInfo(input).then((data) => {
         res.send(data);
-        console.log("User details send  Successfully" + data);
+        console.log("User details send  Successfully");
     }).catch((error) => {
         if (error == 400) {
             res.status(400).send("invalid user id");
@@ -46,7 +46,7 @@ const createUser = (req, res) => {
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.create.create(input).then((data) => {
+    dbService.create(input).then((data) => {
         res.send(data);
         console.log("New User Created Successfully");
     }).catch((error) => {
@@ -64,7 +64,7 @@ const updateUser = (req, res) => {
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.update.update(input).then((data) => {
+    dbService.update(input).then((data) => {
         res.status(200).send("User Details Updated Successfully");
         console.log("User Details Updated Successfully");
     }).catch((error) => {
@@ -82,7 +82,7 @@ const deleteUser = (req, res) => {
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.remove.remove(input).then((data) => {
+    dbService.remove(input).then((data) => {
         res.status(200).send("User Deleted Successfully");
         console.log("User Deleted Successfully");
     }).catch((error) => {
@@ -95,12 +95,30 @@ const deleteUser = (req, res) => {
     });
 }
 
+const searchUser = (req, res) => {
+    console.log("inside search User controller");
+    const input = req.body;
+    // const input = req.query;
+    console.log(input);
+    dbService.search(input).then((data) => {
+        res.send(data);
+        console.log("Search List send Successfully");
+    }).catch((error) => {
+        if (error == 400) {
+            res.status(400);
+            console.log("SQL ERROR");
+        } else {
+            res.sendStatus(500);
+        }
+    });
+}
+
 const addFriends = (req, res) => {
     console.log("inside Add Friends controller");
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.addFriends.addFriends(input).then((data) => {
+    dbService.addFriends(input).then((data) => {
         res.status(200).send("Friend Added Successfully");
         console.log("Friend Added Successfully");
     }).catch((error) => {
@@ -118,7 +136,7 @@ const removeFriends = (req, res) => {
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.removeFriends.removeFriends(input).then((data) => {
+    dbService.removeFriends(input).then((data) => {
         res.status(200).send("Friend Removed Successfully");
         console.log("Friend Removed Successfully");
     }).catch((error) => {
@@ -136,7 +154,7 @@ const friendsList = (req, res) => {
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.friendsList.friendsList(input).then((data) => {
+    dbService.friendsList(input).then((data) => {
         res.send(data[0].friends);
         console.log(data[0].friends);
     }).catch((error) => {
@@ -149,30 +167,12 @@ const friendsList = (req, res) => {
     });
 }
 
-const addPost = (req, res) => {
-    console.log("inside Add Post controller");
-    const input = req;
-    // const input = req.query;
-    console.log(input);
-    dbService.addPost.addPost(input).then((data) => {
-        res.status(200).send("Post Added Successfully");
-        console.log("Post Added Successfully");
-    }).catch((error) => {
-        if (error == 400) {
-            res.status(400).send("Unable To Add Post");
-            console.log("Unable To Add Post");
-        } else {
-            res.sendStatus(500);
-        }
-    });
-}
-
 const removePost = (req, res) => {
     console.log("inside Add Post controller");
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.removePost.removePost(input).then((data) => {
+    dbService.removePost(input).then((data) => {
         res.status(200).send("Post Added Successfully");
         console.log("Post Added Successfully");
     }).catch((error) => {
@@ -186,17 +186,17 @@ const removePost = (req, res) => {
 }
 
 const listPost = (req, res) => {
-    console.log("inside Add Post controller");
+    console.log("inside Post List controller");
     const input = req.body;
     // const input = req.query;
     console.log(input);
-    dbService.listPost.listPost(input).then((data) => {
-        res.status(200).send("Post Added Successfully");
-        console.log("Post Added Successfully");
+    dbService.listPost(input).then((data) => {
+        res.send(data);
+        console.log("Post list send Successfully");
     }).catch((error) => {
         if (error == 400) {
-            res.status(400).send("Unable To Add Post");
-            console.log("Unable To Add Post");
+            res.status(400).send("Unable To get Post list");
+            console.log("Unable To get Post list");
         } else {
             res.sendStatus(500);
         }
@@ -209,10 +209,10 @@ module.exports = {
     createUser,
     updateUser,
     deleteUser,
+    searchUser,
     addFriends,
     removeFriends,
     friendsList,
-    addPost,
     removePost,
     listPost
 }

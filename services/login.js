@@ -11,16 +11,15 @@ const authenticate = (input) => {
             if (err) {
                 console.log(err);
                 reject(400);
-            }
-            else if (results) {
+            } else if (results) {
                 // PAYLOAD
                 var payload = {
-                    loginId:input.loginId,
-                    password:input.password
+                    loginId: input.loginId,
+                    password: input.password
                 };
 
                 // PRIVATE and PUBLIC key
-                var privateKEY = fs.readFileSync(__dirname+'/private.key', 'utf8');
+                var privateKEY = fs.readFileSync(__dirname + '/private.key', 'utf8');
 
                 var i = 'FaceBook Demo'; // Issuer 
                 var s = 'some@user.com'; // Subject 
@@ -37,11 +36,11 @@ const authenticate = (input) => {
                 var token = jwt.sign(payload, privateKEY, signOptions);
                 console.log("Token - " + token)
                 console.log(results);
-                var result ={
+                var result = {
                     results: results,
                     token: token,
-                    status:200,
-                    message:"User Log-In Successful"
+                    status: 200,
+                    message: "User Log-In Successful"
                 }
                 resolve(result);
             } else {

@@ -2,7 +2,7 @@
 
 const connection = require('../dbConnect');
 
-const remove = (input) => {
+module.exports = (input) => {
     return new Promise((resolve, reject) => {
         console.log("inside Deletion service");
         connection.query('DELETE FROM user WHERE loginId=? AND password=?', [input.loginId, input.password], (err, results) => {
@@ -17,8 +17,4 @@ const remove = (input) => {
             }
         });
     });
-}
-
-module.exports ={
-    remove
 }
