@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 3000000
+        fileSize: 10000000
     },
 }).single('file');
 
@@ -33,14 +33,17 @@ Router.post('/add', (req, res) => {
         } else {
             if (req.file == undefined) {
                 console.log('No file Selected');
-                res.send({
-                    msg: 'No file Selected'
-                });
-            } else {
-                console.log('file uploaded');
+            } 
+                console.log('file uploading');
                 const userId = input.userId;
                 const content = input.content;
-                const media = `uploads/${req.file.filename}`;
+                var media;
+                if(req.file == undefined){
+                    media = 'no-file';
+                }else{
+                    media = `uploads/${req.file.filename}`;
+                }
+                
                 connection.query('INSERT INTO posts (userId,content,media) VALUES (?,?,?)', [userId, content, media], (error, results) => {
                     if (error) {
                         console.log(error);
@@ -54,14 +57,17 @@ Router.post('/add', (req, res) => {
                         status: 200,
                         messege: "POST added Successfully"
                     }
+                    console.log(data);
                     res.send(data);
                 })
-            }
+            
         }
     })
 
 });
 Router.post('/remove', userController.removePost);
 Router.post('/list', userController.listPost);
-
+Router.post('/like', userController.likePost);
+Router.post('/dislike', userController.dislikePost);
+Router.post('/likesInfo', userController.likesInfo);
 module.exports = Router;

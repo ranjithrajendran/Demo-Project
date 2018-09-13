@@ -10,7 +10,10 @@ const dbService = {
     removeFriends: require('../services/user/friends/remove'),
     friendsList: require('../services/user/friends/list'),
     removePost: require('../services/user/posts/remove'),
-    listPost: require('../services/user/posts/list')
+    listPost: require('../services/user/posts/list'),
+    likePost: require('../services/user/posts/like'),
+    dislikePost: require('../services/user/posts/dislike'),
+    likesInfo: require('../services/user/posts/likesInfo')
 }
 
 const getDetails = (req, res) => {
@@ -203,6 +206,61 @@ const listPost = (req, res) => {
     });
 }
 
+const likePost = (req, res) => {
+    console.log("inside Post likes controller");
+    const input = req.body;
+    // const input = req.query;
+    console.log(input);
+    dbService.likePost(input).then((data) => {
+        res.send(data);
+        console.log("Post likes send Successfully");
+    }).catch((error) => {
+        if (error == 400) {
+            res.status(400).send("Unable To add likes");
+            console.log("Unable To get add likes");
+        } else {
+            res.sendStatus(500);
+        }
+    });
+}
+
+const dislikePost = (req, res) => {
+    console.log("inside Post dislikes controller");
+    const input = req.body;
+    // const input = req.query;
+    console.log(input);
+    dbService.dislikePost(input).then((data) => {
+        res.send(data);
+        console.log("Post dislikes send Successfully");
+    }).catch((error) => {
+        if (error == 400) {
+            res.status(400).send("Unable To add dislikes");
+            console.log("Unable To add dislikes");
+        } else {
+            res.sendStatus(500);
+        }
+    });
+}
+
+const likesInfo = (req, res) => {
+    console.log("inside likesInfo controller");
+    const input = req.body;
+    // const input = req.query;
+    console.log(input);
+    dbService.likesInfo(input).then((data) => {
+        res.send(data);
+        console.log(data);
+        console.log("Post likes and dislikes send Successfully");
+    }).catch((error) => {
+        if (error == 400) {
+            res.status(400).send("Unable To  send likes and dislikes");
+            console.log("Unable To get send likes and dislikes");
+        } else {
+            res.sendStatus(500);
+        }
+    });
+}
+
 module.exports = {
     userInfo,
     getDetails,
@@ -214,5 +272,8 @@ module.exports = {
     removeFriends,
     friendsList,
     removePost,
-    listPost
+    listPost,
+    likePost,
+    dislikePost,
+    likesInfo
 }
